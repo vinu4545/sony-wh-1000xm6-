@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scroll-Driven Frame Animation | Sony WH-1000XM6</title>
+    <link rel="stylesheet" href="scroll-animation.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-container">
+            <div class="loading-spinner"></div>
+            <p id="loadingText">Loading frames...</p>
+            <div class="progress-bar">
+                <div id="progressFill" class="progress-fill"></div>
+            </div>
+            <p id="loadingPercent">0%</p>
+        </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar" id="navbar">
+        <div class="navbar-content">
+            <div class="navbar-logo">Sony WH-1000XM6</div>
+            <div class="navbar-links">
+                <a href="#about">About</a>
+                <a href="#specs">Specs</a>
+                <a href="#animation">Animation</a>
+            </div>
+            <div class="navbar-scroll-indicator">
+                <div id="scrollProgress" class="scroll-progress-bar"></div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="about">
+        <div class="hero-content">
+            <h1>Sony WH-1000XM6</h1>
+            <p class="subtitle">Scroll down to see the headphones transform</p>
+            <p class="description">This scroll-driven animation showcases frame-by-frame rendering using Canvas API.</p>
+            <a href="#animation" class="cta-button">Start Animation</a>
+        </div>
+    </section>
+
+    <!-- Canvas Animation Section -->
+    <section class="animation-section" id="animation">
+        <div class="animation-container">
+            <!-- Canvas for frame rendering -->
+            <canvas id="frameCanvas" class="frame-canvas"></canvas>
+
+            <!-- Frame Counter -->
+            <div class="frame-info">
+                <div class="frame-counter">
+                    <span id="currentFrame">1</span> / <span id="totalFrames">128</span>
+                </div>
+                <div class="scroll-percentage">
+                    <span id="scrollPercent">0</span>%
+                </div>
+            </div>
+
+            <!-- Animation Title -->
+            <div class="animation-title">
+                <h2>Frame-by-Frame Animation</h2>
+                <p>Controlled entirely by scroll position</p>
+            </div>
+        </div>
+
+        <!-- Scroll Height Container -->
+        <div class="scroll-container"></div>
+    </section>
+
+    <!-- Specs Section -->
+    <section class="specs" id="specs">
+        <div class="specs-content">
+            <h2>Technical Implementation</h2>
+            <div class="specs-grid">
+                <div class="spec-card">
+                    <h3>Frame Preloading</h3>
+                    <p>All frames are preloaded in memory before animation begins for zero latency playback.</p>
+                </div>
+                <div class="spec-card">
+                    <h3>Canvas Rendering</h3>
+                    <p>Efficient Canvas API rendering instead of DOM image swapping for smooth 60 FPS performance.</p>
+                </div>
+                <div class="spec-card">
+                    <h3>RequestAnimationFrame</h3>
+                    <p>GPU-optimized animation loop using requestAnimationFrame for hardware acceleration.</p>
+                </div>
+                <div class="spec-card">
+                    <h3>Responsive Design</h3>
+                    <p>Canvas scales to fit viewport while maintaining aspect ratio on all screen sizes.</p>
+                </div>
+                <div class="spec-card">
+                    <h3>Scroll Mapping</h3>
+                    <p>Precise scroll-to-frame mapping ensures smooth progression through the animation.</p>
+                </div>
+                <div class="spec-card">
+                    <h3>Optimized Events</h3>
+                    <p>Efficient scroll event handling with frame-rate independent updates.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2026 Sony. Scroll-Driven Animation Demo. All rights reserved.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="scroll-animation.js"></script>
+</body>
+</html>
