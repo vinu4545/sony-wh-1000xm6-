@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scroll-Driven Frame Animation</title>
+    <style>
+        /* ============================================================================
+           Scroll-Driven Frame Animation - Complete Styles
+           ============================================================================ */
+
+        :root {
+            --primary-bg: #050505;
+            --secondary-bg: #0a0a0c;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.6);
+            --accent-blue: #0050ff;
+            --accent-cyan: #00d6ff;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            background: var(--primary-bg);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'San Francisco', 'Segoe UI', 'Helvetica Neue', sans-serif;
+            background: var(--primary-bg);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 1;
+            transition: opacity 0.3s ease-out;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loading-container {
+            text-align: center;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid var(--border-color);
+            border-top: 3px solid var(--accent-cyan);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 30px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-container p {
+            color: var(--text-secondary);
+            margin: 15px 0;
+            font-size: 14px;
+        }
+
+        .progress-bar {
+            width: 200px;
+            height: 2px;
+            background: var(--border-color);
+            margin: 20px auto;
+            border-radius: 1px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan));
+            width: 0%;
+            transition: width 0.1s ease-out;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: rgba(5, 5, 5, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease-out;
+        }
+
+        .navbar.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .navbar-logo {
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+
+        /* Hero */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: clamp(48px, 8vw, 72px);
+            font-weight: 700;
+            letter-spacing: -1px;
+            margin-bottom: 20px;
+        }
+
+        .hero .subtitle {
+            font-size: 18px;
+            color: var(--accent-cyan);
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .hero .description {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            line-height: 1.8;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 12px 32px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(0, 214, 255, 0.2);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 40px rgba(0, 214, 255, 0.4);
+        }
+
+        /* Animation Section */
+        .animation-section {
+            position: relative;
+            min-height: 200vh;
+        }
+
+        .animation-container {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary-bg);
+            z-index: 10;
+        }
+
+        .frame-canvas {
+            display: block;
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            background: var(--primary-bg);
+        }
+
+        .frame-info {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            z-index: 20;
+        }
+
+        .frame-counter {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        #currentFrame {
+            color: var(--accent-cyan);
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .animation-title {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            z-index: 20;
+        }
+
+        .animation-title h2 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .animation-title p {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .scroll-container {
+            height: 300vh;
+            background: var(--primary-bg);
+        }
+
+        /* Specs Section */
+        .specs {
+            background: var(--secondary-bg);
+            padding: 80px 20px;
+        }
+
+        .specs-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .specs-content h2 {
+            font-size: 48px;
+            margin-bottom: 60px;
+            text-align: center;
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .spec-card {
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .spec-card:hover {
+            background: rgba(0, 214, 255, 0.05);
+            border-color: var(--accent-cyan);
+            transform: translateY(-4px);
+        }
+
+        .spec-card h3 {
+            font-size: 18px;
+            margin-bottom: 12px;
+            color: var(--accent-cyan);
+        }
+
+        .spec-card p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--primary-bg);
+            padding: 40px 20px;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-size: 12px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .frame-info {
+                top: 10px;
+                left: 10px;
+                font-size: 11px;
+            }
+
+            .specs-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-container">
+            <div class="loading-spinner"></div>
+            <p id="loadingText">Loading frames...</p>
+            <div class="progress-bar">
+                <div id="progressFill" class="progress-fill"></div>
+            </div>
+            <p id="loadingPercent">0%</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="navbar-content">
+            <div class="navbar-logo">Scroll Animation Demo</div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div>
+            <h1>Scroll-Driven Animation</h1>
+            <p class="subtitle">Canvas-based frame sequencing</p>
+            <p class="description">Scroll down to control the animation frame-by-frame</p>
+            <a href="#animation" class="cta-button">Start</a>
+        </div>
+    </section>
+
+    <!-- Animation Section -->
+    <section class="animation-section" id="animation">
+        <div class="animation-container">
+            <canvas id="frameCanvas" class="frame-canvas"></canvas>
+            <div class="frame-info">
+                <div class="frame-counter">
+                    <span id="currentFrame">1</span> / <span id="totalFrames">128</span>
+                </div>
+            </div>
+            <div class="animation-title">
+                <h2>Frame-by-Frame Animation</h2>
+                <p>Controlled entirely by scroll</p>
+            </div>
+        </div>
+        <div class="scroll-container"></div>
+    </section>
+
+    <!-- Specs Section -->
+    <section class="specs">
+        <div class="specs-content">
+            <h2>How It Works</h2>
+            <div class="specs-grid">
+                <div class="spec-card">
+                    <h3>Frame Preloading</h3>
+                    <p>All PNG frames loaded in parallel for instant playback with no latency.</p>
+                </div>
+                <div class="spec-card">
+                    <h3>Canvas Rendering</h3>
+                    <p>Efficient Canvas API rendering instead of DOM manipulation for 60 FPS performance.</p>
+                </div>
+                <div class="spec-card">
+                    <h3>Scroll Mapping</h3>
+                    <p>Scroll position precisely mapped to frame index for smooth, frame-accurate control.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2026. Scroll-Driven Frame Animation Demo.</p>
+    </footer>
+
+    <script>
+        /* Scroll Frame Animation Class */
+        class ScrollFrameAnimation {
+            constructor(config = {}) {
+                this.config = {
+                    frameFolder: config.frameFolder || '/frames',
+                    frameCount: config.frameCount || 128,
+                    canvasId: config.canvasId || 'frameCanvas',
+                    ...config
+                };
+
+                this.canvas = document.getElementById(this.config.canvasId);
+                this.ctx = this.canvas.getContext('2d', { alpha: false });
+                this.frameImages = [];
+                this.currentFrameIndex = 0;
+                this.isLoaded = false;
+                this.lastFrameIndex = -1;
+
+                this.init();
+            }
+
+            async init() {
+                try {
+                    this.resizeCanvas();
+                    window.addEventListener('resize', () => this.resizeCanvas());
+                    await this.preloadFrames();
+                    this.showAnimation();
+                    this.startAnimationLoop();
+                    window.addEventListener('scroll', () => this.handleScroll(), { passive: true });
+                } catch (error) {
+                    console.error('Initialization failed:', error);
+                }
+            }
+
+            async preloadFrames() {
+                return new Promise((resolve) => {
+                    let loadedCount = 0;
+                    this.frameImages = new Array(this.config.frameCount);
+
+                    for (let i = 0; i < this.config.frameCount; i++) {
+                        const img = new Image();
+                        const paddedIndex = String(i).padStart(3, '0');
+                        img.onload = () => {
+                            this.frameImages[i] = img;
+                            loadedCount++;
+                            this.updateProgress(loadedCount);
+                            if (loadedCount === this.config.frameCount) resolve();
+                        };
+                        img.onerror = () => {
+                            loadedCount++;
+                            if (loadedCount === this.config.frameCount) resolve();
+                        };
+                        img.src = `${this.config.frameFolder}/frame_${paddedIndex}.png`;
+                    }
+                });
+            }
+
+            updateProgress(count) {
+                const percent = Math.round((count / this.config.frameCount) * 100);
+                const fill = document.getElementById('progressFill');
+                const text = document.getElementById('loadingPercent');
+                if (fill) fill.style.width = percent + '%';
+                if (text) text.textContent = percent;
+            }
+
+            showAnimation() {
+                this.isLoaded = true;
+                const loading = document.getElementById('loadingScreen');
+                if (loading) loading.classList.add('hidden');
+            }
+
+            resizeCanvas() {
+                const rect = this.canvas.parentElement.getBoundingClientRect();
+                const dpr = window.devicePixelRatio || 1;
+                this.canvas.width = rect.width * dpr;
+                this.canvas.height = rect.height * dpr;
+                this.ctx.scale(dpr, dpr);
+                this.canvas.style.width = rect.width + 'px';
+                this.canvas.style.height = rect.height + 'px';
+            }
+
+            handleScroll() {
+                if (!this.isLoaded) return;
+
+                const section = document.getElementById('animation');
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.offsetHeight;
+                const windowHeight = window.innerHeight;
+                const scrollTop = window.scrollY;
+
+                const progress = (scrollTop - sectionTop + windowHeight) / (windowHeight + sectionHeight);
+                const clamped = Math.max(0, Math.min(1, progress));
+                const frameIndex = Math.floor(clamped * (this.config.frameCount - 1));
+
+                if (frameIndex !== this.lastFrameIndex) {
+                    this.currentFrameIndex = frameIndex;
+                    this.lastFrameIndex = frameIndex;
+                    this.updateUI(frameIndex);
+                }
+
+                // Show navbar
+                const navbar = document.getElementById('navbar');
+                if (scrollTop > 100) navbar.classList.add('visible');
+                else navbar.classList.remove('visible');
+            }
+
+            drawFrame(index) {
+                if (!this.frameImages[index]) return;
+                const img = this.frameImages[index];
+                const w = this.canvas.width / (window.devicePixelRatio || 1);
+                const h = this.canvas.height / (window.devicePixelRatio || 1);
+
+                this.ctx.fillStyle = '#050505';
+                this.ctx.fillRect(0, 0, w, h);
+
+                const imgAspect = img.width / img.height;
+                const canvasAspect = w / h;
+                let dw, dh, dx, dy;
+
+                if (imgAspect > canvasAspect) {
+                    dh = h;
+                    dw = h * imgAspect;
+                } else {
+                    dw = w;
+                    dh = w / imgAspect;
+                }
+
+                dx = (w - dw) / 2;
+                dy = (h - dh) / 2;
+
+                this.ctx.drawImage(img, dx, dy, dw, dh);
+            }
+
+            startAnimationLoop() {
+                const animate = () => {
+                    this.drawFrame(this.currentFrameIndex);
+                    requestAnimationFrame(animate);
+                };
+                animate();
+            }
+
+            updateUI(frameIndex) {
+                const current = document.getElementById('currentFrame');
+                if (current) current.textContent = frameIndex + 1;
+            }
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            window.scrollAnimation = new ScrollFrameAnimation({
+                frameFolder: '/frames',
+                frameCount: 128,
+                canvasId: 'frameCanvas'
+            });
+        });
+    </script>
+</body>
+</html>
