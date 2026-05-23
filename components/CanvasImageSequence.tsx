@@ -75,8 +75,8 @@ export function CanvasImageSequence({
       let scrollProgress = (windowHeight - containerTop) / (windowHeight + containerHeight)
       scrollProgress = Math.max(0, Math.min(1, scrollProgress))
 
-      // Map scroll progress to frame index
-      const frameIndex = Math.floor(scrollProgress * (frameCount - 1))
+      // Map scroll progress to frame index with slower progression (2.5x slower)
+      const frameIndex = Math.floor(scrollProgress * (frameCount - 1) * 0.4)
       setCurrentFrame(frameIndex)
       onFrameChange?.(frameIndex)
 

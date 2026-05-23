@@ -20,19 +20,20 @@ export default function Home() {
       {/* Navbar */}
       <Navbar />
 
-      {/* Canvas Image Sequence - The core scrollytelling interaction */}
+      {/* Canvas Image Sequence - Slowed down for smooth viewing */}
       <CanvasImageSequence
         frameCount={128}
         framePath={getFramePath}
         onFrameChange={setCurrentFrame}
       />
 
-      {/* Scroll Container - Maintains scroll height for interaction */}
+      {/* Scroll Container - Extended height for slower animation */}
       <div className="relative z-30 bg-sony-dark">
-        {/* Hero / Intro Section (0-15% scroll) */}
+        
+        {/* Hero / Intro Section - Extended for smooth intro */}
         <div className="h-screen flex items-center justify-center pointer-events-none" />
 
-        <ScrollText startPercent={0} endPercent={15} side="center">
+        <ScrollText startPercent={0} endPercent={10} side="center">
           <motion.div 
             className="max-w-2xl"
             initial={{ opacity: 0, y: 20 }}
@@ -57,19 +58,22 @@ export default function Home() {
           </motion.div>
         </ScrollText>
 
-        {/* Engineering Reveal Section (15-40% scroll) */}
-        <div className="h-screen flex items-center justify-start pointer-events-none" />
+        {/* OVERVIEW SECTION - Extended height for slower animation */}
+        <div className="h-[150vh] flex items-center justify-start pointer-events-none" />
 
-        <ScrollText startPercent={15} endPercent={40} side="left">
+        <ScrollText startPercent={10} endPercent={40} side="left">
           <motion.div 
             className="max-w-xl"
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="text-5xl sm:text-6xl font-bold mb-6 tracking-tight leading-tight">
-              Precision-<br />engineered for<br />silence.
+            <h2 className="text-5xl sm:text-6xl font-bold mb-2 tracking-tight text-sony-cyan">
+              Overview
             </h2>
+            <h3 className="text-4xl sm:text-5xl font-bold mb-6 tracking-tight leading-tight">
+              Engineered for<br />perfection.
+            </h3>
             <div className="space-y-4 text-white/60">
               <motion.p 
                 className="text-base sm:text-lg leading-relaxed"
@@ -77,7 +81,7 @@ export default function Home() {
                 whileInView={{ opacity: 1 }}
                 transition={{ duration: 0.8, delay: 0.1 }}
               >
-                Custom drivers, sealed acoustic chambers, and optimized airflow deliver studio-grade clarity.
+                The WH-1000XM6 represents the pinnacle of wireless audio engineering. Every detail has been meticulously crafted to deliver an uncompromising listening experience.
               </motion.p>
               <motion.p 
                 className="text-base sm:text-lg leading-relaxed"
@@ -85,25 +89,28 @@ export default function Home() {
                 whileInView={{ opacity: 1 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
               >
-                Every component is tuned for balance, power, and comfort—hour after hour.
+                Premium materials, precision engineering, and decades of audio expertise converge to create something extraordinary.
               </motion.p>
             </div>
           </motion.div>
         </ScrollText>
 
-        {/* Noise Cancelling Section (40-65% scroll) */}
-        <div className="h-screen flex items-center justify-end pointer-events-none" />
+        {/* TECHNOLOGY SECTION - Extended height for slower animation */}
+        <div className="h-[150vh] flex items-center justify-end pointer-events-none" />
 
-        <ScrollText startPercent={40} endPercent={65} side="right">
+        <ScrollText startPercent={40} endPercent={70} side="right">
           <motion.div 
             className="max-w-xl"
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="text-5xl sm:text-6xl font-bold mb-6 tracking-tight leading-tight">
-              Adaptive noise<br />cancelling,<br />redefined.
+            <h2 className="text-5xl sm:text-6xl font-bold mb-2 tracking-tight text-sony-cyan">
+              Technology
             </h2>
+            <h3 className="text-4xl sm:text-5xl font-bold mb-6 tracking-tight leading-tight">
+              Advanced noise<br />cancellation.
+            </h3>
             <div className="space-y-3 text-white/60">
               <motion.p 
                 className="flex items-start gap-3"
@@ -112,7 +119,7 @@ export default function Home() {
                 transition={{ duration: 0.8, delay: 0.1 }}
               >
                 <span className="text-sony-cyan text-lg mt-1 flex-shrink-0">→</span>
-                <span className="text-base sm:text-lg">Multi-microphone array listens in every direction.</span>
+                <span className="text-base sm:text-lg"><strong>Dual noise sensor technology</strong> with adaptive processing</span>
               </motion.p>
               <motion.p 
                 className="flex items-start gap-3"
@@ -121,7 +128,7 @@ export default function Home() {
                 transition={{ duration: 0.8, delay: 0.2 }}
               >
                 <span className="text-sony-cyan text-lg mt-1 flex-shrink-0">→</span>
-                <span className="text-base sm:text-lg">Real-time noise analysis adapts to your environment.</span>
+                <span className="text-base sm:text-lg"><strong>AI-powered sound optimization</strong> that learns your preferences</span>
               </motion.p>
               <motion.p 
                 className="flex items-start gap-3"
@@ -130,47 +137,22 @@ export default function Home() {
                 transition={{ duration: 0.8, delay: 0.3 }}
               >
                 <span className="text-sony-cyan text-lg mt-1 flex-shrink-0">→</span>
-                <span className="text-base sm:text-lg">Your music stays pure—planes, trains, and crowds fade away.</span>
+                <span className="text-base sm:text-lg"><strong>30-hour battery life</strong> with quick charging</span>
+              </motion.p>
+              <motion.p 
+                className="flex items-start gap-3"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+              >
+                <span className="text-sony-cyan text-lg mt-1 flex-shrink-0">→</span>
+                <span className="text-base sm:text-lg"><strong>Premium sound</strong> with LDAC support</span>
               </motion.p>
             </div>
           </motion.div>
         </ScrollText>
 
-        {/* Sound & Upscaling Section (65-85% scroll) */}
-        <div className="h-screen flex items-center justify-center pointer-events-none" />
-
-        <ScrollText startPercent={65} endPercent={85} side="center">
-          <motion.div 
-            className="max-w-2xl"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <h2 className="text-5xl sm:text-6xl font-bold mb-6 tracking-tight">
-              Immersive, lifelike sound.
-            </h2>
-            <div className="space-y-4 text-white/60 max-w-xl mx-auto">
-              <motion.p 
-                className="text-base sm:text-lg leading-relaxed"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                transition={{ duration: 0.8, delay: 0.1 }}
-              >
-                High-performance drivers unlock detail, depth, and texture in every track.
-              </motion.p>
-              <motion.p 
-                className="text-base sm:text-lg leading-relaxed"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-              >
-                AI-enhanced upscaling restores clarity to compressed audio, so every note feels alive.
-              </motion.p>
-            </div>
-          </motion.div>
-        </ScrollText>
-
-        {/* Reassembly & CTA Section (85-100% scroll) */}
+        {/* Call to Action Section */}
         <div className="h-screen flex flex-col items-center justify-center pointer-events-auto relative z-40">
           <motion.div 
             className="text-center space-y-8 max-w-2xl px-4"
@@ -189,10 +171,10 @@ export default function Home() {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
               <PrimaryButton onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-                Experience WH-1000XM6
+                Experience Now
               </PrimaryButton>
-              <SecondaryButton onClick={() => alert('Specs coming soon!')}>
-                See full specs
+              <SecondaryButton onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+                Learn More
               </SecondaryButton>
             </div>
 
@@ -202,7 +184,7 @@ export default function Home() {
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.3 }}
             >
-              Engineered for airports, offices, and everything in between.
+              Premium wireless audio. Now perfected.
             </motion.p>
           </motion.div>
         </div>
