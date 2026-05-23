@@ -1,0 +1,472 @@
+/* ============================================================================
+   Scroll-Driven Frame Animation - Styles
+   ============================================================================ */
+
+:root {
+    --primary-bg: #050505;
+    --secondary-bg: #0a0a0c;
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.6);
+    --accent-blue: #0050ff;
+    --accent-cyan: #00d6ff;
+    --border-color: rgba(255, 255, 255, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    background: var(--primary-bg);
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'San Francisco', 'Segoe UI', 'Helvetica Neue', sans-serif;
+    background: var(--primary-bg);
+    color: var(--text-primary);
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+/* ============================================================================
+   Loading Screen
+   ============================================================================ */
+
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--primary-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    opacity: 1;
+    transition: opacity 0.3s ease-out;
+}
+
+.loading-screen.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.loading-container {
+    text-align: center;
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 3px solid var(--border-color);
+    border-top: 3px solid var(--accent-cyan);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 30px;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.loading-container p {
+    color: var(--text-secondary);
+    margin: 15px 0;
+    font-size: 14px;
+}
+
+.progress-bar {
+    width: 200px;
+    height: 2px;
+    background: var(--border-color);
+    margin: 20px auto;
+    border-radius: 1px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan));
+    width: 0%;
+    transition: width 0.1s ease-out;
+}
+
+#loadingPercent {
+    font-size: 12px;
+    color: var(--accent-cyan);
+    font-weight: 600;
+}
+
+/* ============================================================================
+   Navigation Bar
+   ============================================================================ */
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: rgba(5, 5, 5, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-color);
+    z-index: 1000;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s ease-out;
+}
+
+.navbar.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.navbar-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navbar-logo {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+}
+
+.navbar-links {
+    display: flex;
+    gap: 30px;
+}
+
+.navbar-links a {
+    font-size: 13px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.navbar-links a:hover {
+    color: var(--accent-cyan);
+}
+
+.navbar-scroll-indicator {
+    flex: 1;
+    margin-left: 40px;
+    max-width: 150px;
+}
+
+.scroll-progress-bar {
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan));
+    width: 0%;
+    transition: width 0.05s linear;
+    border-radius: 1px;
+}
+
+/* ============================================================================
+   Hero Section
+   ============================================================================ */
+
+.hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 20px;
+    position: relative;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(0, 80, 255, 0.1) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 600px;
+}
+
+.hero h1 {
+    font-size: clamp(48px, 8vw, 72px);
+    font-weight: 700;
+    letter-spacing: -1px;
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.hero .subtitle {
+    font-size: 18px;
+    color: var(--accent-cyan);
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+.hero .description {
+    font-size: 16px;
+    color: var(--text-secondary);
+    margin-bottom: 40px;
+    line-height: 1.8;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 12px 32px;
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 20px rgba(0, 214, 255, 0.2);
+}
+
+.cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 40px rgba(0, 214, 255, 0.4);
+}
+
+/* ============================================================================
+   Animation Section
+   ============================================================================ */
+
+.animation-section {
+    position: relative;
+    min-height: 200vh;
+}
+
+.animation-container {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--primary-bg);
+    z-index: 10;
+}
+
+/* Canvas Styling */
+.frame-canvas {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    background: var(--primary-bg);
+}
+
+/* Frame Counter and Info */
+.frame-info {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    z-index: 20;
+}
+
+.frame-counter {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    font-variant-numeric: tabular-nums;
+}
+
+#currentFrame {
+    color: var(--accent-cyan);
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.scroll-percentage {
+    font-variant-numeric: tabular-nums;
+}
+
+#scrollPercent {
+    color: var(--accent-cyan);
+    font-weight: 600;
+}
+
+/* Animation Title */
+.animation-title {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 20;
+}
+
+.animation-title h2 {
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+.animation-title p {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+/* Scroll Container (provides scroll height) */
+.scroll-container {
+    height: 300vh;
+    background: var(--primary-bg);
+}
+
+/* ============================================================================
+   Specs Section
+   ============================================================================ */
+
+.specs {
+    background: var(--secondary-bg);
+    padding: 80px 20px;
+}
+
+.specs-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.specs-content h2 {
+    font-size: 48px;
+    margin-bottom: 60px;
+    text-align: center;
+}
+
+.specs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.spec-card {
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.spec-card:hover {
+    background: rgba(0, 214, 255, 0.05);
+    border-color: var(--accent-cyan);
+    transform: translateY(-4px);
+}
+
+.spec-card h3 {
+    font-size: 18px;
+    margin-bottom: 12px;
+    color: var(--accent-cyan);
+}
+
+.spec-card p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.8;
+}
+
+/* ============================================================================
+   Footer
+   ============================================================================ */
+
+.footer {
+    background: var(--primary-bg);
+    padding: 40px 20px;
+    text-align: center;
+    border-top: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    font-size: 12px;
+}
+
+/* ============================================================================
+   Responsive Design
+   ============================================================================ */
+
+@media (max-width: 768px) {
+    .navbar-links {
+        display: none;
+    }
+
+    .navbar-scroll-indicator {
+        display: none;
+    }
+
+    .hero h1 {
+        font-size: 36px;
+    }
+
+    .frame-info {
+        top: 10px;
+        left: 10px;
+        font-size: 11px;
+    }
+
+    .animation-title {
+        bottom: 20px;
+    }
+
+    .animation-title h2 {
+        font-size: 20px;
+    }
+
+    .specs-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .spec-card {
+        padding: 20px;
+    }
+}
+
+/* ============================================================================
+   Utility Classes
+   ============================================================================ */
+
+.max-w-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Smooth scroll within sections */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 214, 255, 0.3);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 214, 255, 0.5);
+}
+
+/* Firefox scrollbar */
+* {
+    scrollbar-color: rgba(0, 214, 255, 0.3) rgba(255, 255, 255, 0.05);
+    scrollbar-width: thin;
+}
