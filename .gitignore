@@ -9,3 +9,28 @@ build/
 .env.test.local
 .env.production.local
 .cache/
+.turbo/
+.vercel/
+out/
+.next/cache/
+.next/static/
+
+# Optional npm cache directory
+.npm
+
+# Optional REPL history
+.node_repl_history
+
+# dotenv environment variables file
+.env
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
