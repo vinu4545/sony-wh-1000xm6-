@@ -1,0 +1,131 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: #050505;
+}
+
+body {
+  background: #050505;
+  color: rgba(255, 255, 255, 0.6);
+  overflow-x: hidden;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Gradient text for headings */
+.gradient-text {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 1) 0%, rgba(0, 214, 255, 0.3) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Smooth scrolling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Glass effect */
+.glass {
+  background: rgba(5, 5, 5, 0.75);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Glow effects */
+.glow-sm {
+  box-shadow: 0 0 20px rgba(0, 214, 255, 0.1);
+}
+
+.glow {
+  box-shadow: 0 0 30px rgba(0, 214, 255, 0.15);
+}
+
+.glow-lg {
+  box-shadow: 0 0 60px rgba(0, 214, 255, 0.2);
+}
+
+/* Button styles */
+.btn {
+  @apply px-6 py-3 rounded-lg font-medium text-sm transition-all duration-300 ease-out;
+}
+
+.btn-primary {
+  @apply bg-gradient-to-r from-sony-blue to-sony-cyan text-white;
+  box-shadow: 0 0 20px rgba(0, 214, 255, 0.2);
+}
+
+.btn-primary:hover {
+  box-shadow: 0 0 40px rgba(0, 214, 255, 0.4);
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  @apply text-white border border-white/20 hover:border-white/40;
+}
+
+.btn-secondary:hover {
+  @apply bg-white/5;
+}
+
+/* Link styles */
+a {
+  transition: all 0.3s ease;
+}
+
+/* Sections */
+.section {
+  @apply relative w-full;
+}
+
+/* Container */
+.container-max {
+  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+/* Canvas container */
+.canvas-container {
+  @apply relative w-full h-screen;
+  background: #050505;
+}
+
+/* Text content overlay */
+.text-overlay {
+  @apply absolute inset-0 pointer-events-none flex items-center justify-center;
+  z-index: 10;
+}
+
+/* Ambient gradient background */
+.ambient-gradient {
+  background: radial-gradient(circle at 50% 50%, rgba(0, 80, 255, 0.05) 0%, rgba(5, 5, 5, 0) 70%);
+  pointer-events: none;
+}
